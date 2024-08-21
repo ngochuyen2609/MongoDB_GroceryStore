@@ -1,0 +1,16 @@
+{
+  "name": "mongodb_grocerystore",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^10.7.3",
+    "mongoose": "^8.5.3"
+  },
+  "description": ""
+}
