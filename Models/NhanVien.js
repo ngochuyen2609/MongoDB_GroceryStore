@@ -10,7 +10,7 @@ const NhanVienSchema = new Schema({
     chucVu: {type : String}, 
     luong: { type: Number, default:0 },
     ngayBatDauLamViec:  {type : String, default : Date.now},
-});
+}, { collection: 'nhanviens' });
 
 const NhanVien = mongoose.model('NhanVien', NhanVienSchema);
 

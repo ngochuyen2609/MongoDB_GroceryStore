@@ -6,7 +6,7 @@ const KhachHangThanhVienSchema = new Schema({
     soDienThoai:  {type : String, require:true},
     diemTichLuy:  {type:Number,default:0}, 
     ngayDangKy: {type : Date, default: Date.now}, 
-});
+}, { collection: 'khachhangs' });
 
 const KhachHangThanhVien = mongoose.model('KhachHangThanhVien', KhachHangThanhVienSchema);
 
