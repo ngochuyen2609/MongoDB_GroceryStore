@@ -37,12 +37,10 @@ describe('Quan ly nhan vien', function () {
 
     // Kiểm thử: Tìm nhân viên theo soCCCD
     it('Tim nhan vien theo CCCD', function (done) {
-        const nhanVien = new NhanVien({
-            soCCCD: '123456789'
-        });
+        const  soCCCD= '123456789';
 
         // Giả sử bạn muốn tìm nhân viên với số CCCD 
-        NhanVien.findOne({ soCCCD: nhanVien.soCCCD }).then(function (record) {
+        NhanVien.findOne({ soCCCD: soCCCD }).then(function (record) {
             if (record) {
                 console.log('Nhân viên đã được tìm thấy:', record);
             } else {
@@ -57,19 +55,20 @@ describe('Quan ly nhan vien', function () {
     
     // Kiểm thử: Tìm nhân viên theo thời gian
     it('Tìm nhân viên theo thời gian', function (done) {
-        // Tìm tất cả các tài liệu có batDau nằm trong ngày 2024-08-12
         const startDate = new Date('2024-08-12T00:00:00Z');
         const endDate = new Date('2024-08-13T00:00:00Z');
-                
-        // Giả sử bạn muốn tìm các tài liệu có batDau trong khoảng thời gian
-        ChamCong.find({batDau: { $gte: startDate, $lt: endDate }}).populate('nhanVien').then(function (records) {
+        
+        ChamCong.find({ batDau: { $gte: startDate, $lt: endDate } }) .populate('nhanVien') .then(function (records) {
+            console.log('Số lượng bản ghi tìm thấy:', records.length);
+            console.log('Dữ liệu bản ghi:', records);
             if (records.length > 0) {
                 console.log('Nhân viên đã được tìm thấy:', records.map(record => record.nhanVien));
             } else {
                 console.log('Không tìm thấy nhân viên.');
             }
             done();
-        }).catch(function (err) {
+        })
+         .catch(function (err) {
             console.error('Đã xảy ra lỗi khi tìm nhân viên:', err);
             done(err);
         });
@@ -86,6 +85,7 @@ describe('Quan ly nhan vien', function () {
             return NhanVien.findOne({ soCCCD: nhanVien.soCCCD });
         }).then(function (record) {
             assert(record === null); // Kiểm tra xem nhân viên đã bị xóa chưa
+            console.log('Da xoa nhan vien thanh cong');
             done();
         }).catch(function (err) {
             done(err);
