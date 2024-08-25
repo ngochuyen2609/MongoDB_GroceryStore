@@ -11,7 +11,7 @@ const HoaDonSchema = new Schema({
     }],
     khachHang: { type: mongoose.Schema.Types.ObjectId, ref: 'KhachHang' },
     tongTien: { type: Number }
-});
+}, { collection: 'hoadons' });
 
 // Pre-save hook to calculate tongTien
 //dung async =>> Lap trinh bat dong bo ,tự động trả về một Promise
