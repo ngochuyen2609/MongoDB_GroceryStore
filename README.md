@@ -1,4 +1,5 @@
 Ngôn ngữ :JavaScript 
+Database : NoSQL (MongoDB)
 Test : Mocha
 
 Diagram:
