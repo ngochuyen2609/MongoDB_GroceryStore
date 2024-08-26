@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema; 
+const Schema = mongoose.Schema;
 
 const HoaDonSchema = new Schema({
     maHoaDon: String, 
-    nhanVienLamHoaDon: { type: mongoose.Schema.Types.ObjectId, ref: 'NhanVien', require: true },
+    nhanVienLamHoaDon: { type: mongoose.Schema.Types.ObjectId, ref: 'NhanVien' },
     thoiGian: { type: Date, default: Date.now }, 
     danhSachSanPham: [{
         sanPham: { type: mongoose.Schema.Types.ObjectId, ref: 'SanPham' },
@@ -14,28 +14,27 @@ const HoaDonSchema = new Schema({
 }, { collection: 'hoadons' });
 
 // Pre-save hook to calculate tongTien
-//dung async =>> Lap trinh bat dong bo ,tự động trả về một Promise
 HoaDonSchema.pre('save', async function(next) {
     const hoaDon = this;
 
     hoaDon.tongTien = 0;
 
-    // Calculate total price
-    for (let item of hoaDon.danhSachSanPham) {
-        //await =>> tạm dừng thực hiện hàm cho đến khi một Promise được giải quyết
-        //populate =>>truy xuất thông tin tu SanPham
+    // Create an array of promises to get the price of each product
+    const promises = hoaDon.danhSachSanPham.map(async (item, index) => {
+        // Populate the sanPham field
         await hoaDon.populate({
-            //path: doi tuong muon truy xuat va thay doi du lieu
-            path: `danhSachSanPham.${hoaDon.danhSachSanPham.indexOf(item)}.sanPham`,
-            //select: truong muon truy xuat
+            path: `danhSachSanPham.${index}.sanPham`,
             select: 'giaBan'
-        }).execPopulate();
+        });
 
         // Calculate tongTien
         if (item.sanPham && item.sanPham.giaBan) {
             hoaDon.tongTien += item.sanPham.giaBan * item.soLuong;
         }
-    }
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
 
     next();
 });

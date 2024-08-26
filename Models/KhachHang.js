@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const KhachHangThanhVienSchema = new Schema({
     ten: String,  
-    soDienThoai:  {type : String, require:true},
+    soDienThoai:  {type : String},
     diemTichLuy:  {type:Number,default:0}, 
     ngayDangKy: {type : Date, default: Date.now}, 
 }, { collection: 'khachhangs' });
